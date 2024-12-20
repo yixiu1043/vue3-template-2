@@ -1,0 +1,4 @@
+*
+!dist/*
+!docker-entrypoint.sh
+!plugin.sh

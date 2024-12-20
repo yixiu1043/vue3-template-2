@@ -1,0 +1,184 @@
+@import url('@/styles/font.less');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --van-popup-background: rgba(0, 0, 0, 0.5);
+}
+:global {
+  .van-popup--center {
+    border-radius: 8px;
+  }
+  .van-toast__text {
+    color: #fff;
+    padding: 8px;
+  }
+  #app {
+    height: 100vh;
+    // display: flex;
+    padding-top: 0.1px;
+    background: #310066 url(assets/bg.png) no-repeat 0 0/100% auto;
+    transition: filter 1000ms;
+    --clip-path: polygon(
+            0 0,
+            100% 0,
+            100% 100%,
+            calc(50% + 88.8px) 100%,
+            calc(50% + 86.6px) 100%,
+            calc(50% + 84.3px) calc(100% - 0.5px),
+            calc(50% + 82.1px) calc(100% - 1.3px),
+            calc(50% + 80px) calc(100% - 2.3px),
+            calc(50% + 78.1px) calc(100% - 3.6px),
+            calc(50% + 77.3px) calc(100% - 4.1px),
+            calc(50% + 75.3px) calc(100% - 5.3px),
+            calc(50% + 73.3px) calc(100% - 6.3px),
+            calc(50% + 71.1px) calc(100% - 7.1px),
+            calc(50% + 68.8px) calc(100% - 7.6px),
+            calc(50% + 66.5px) calc(100% - 7.7px),
+            calc(50% - 60.6px) calc(100% - 7.7px),
+            calc(50% - 63px) calc(100% - 7.6px),
+            calc(50% - 65.1px) calc(100% - 7.1px),
+            calc(50% - 67.3px) calc(100% - 6.3px),
+            calc(50% - 69.5px) calc(100% - 5.3px),
+            calc(50% - 71.5px) calc(100% - 4.1px),
+            calc(50% - 72.1px) calc(100% - 3.6px),
+            calc(50% - 74.1px) calc(100% - 2.3px),
+            calc(50% - 76.1px) calc(100% - 1.3px),
+            calc(50% - 78.3px) calc(100% - 0.5px),
+            calc(50% - 80.6px) 100%,
+            0 100%,
+            0 0
+    );
+  }
+}
+
+.box {
+  background: radial-gradient(127.02% 50% at 16.44% 0%, #9636ff 0%, #6e0adb 100%);
+  margin: 30.5% auto 0;
+  width: 1200px;
+  height: 338px;
+  border-radius: 32px;
+  clip-path: var(--clip-path);
+  padding: 44px 64px;
+}
+
+.title {
+@apply tw-font-knockout tw-text-white tw-text-center tw-text-48 tw-uppercase tw-font-bold tw-mb-68;
+}
+
+.list {
+  list-style: none;
+  color: #4a009a;
+  font-size: 32px;
+  font-weight: 500;
+  display: grid;
+  gap: 40px 20px;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  max-height: 794px;
+  overflow: hidden auto;
+  margin-bottom: 20px;
+}
+.item {
+  font-size: 32px;
+  text-align: center;
+  color: #4a009a;
+
+  &Name {
+    font-size: 20px;
+    color: #eedfff;
+    margin-top: 16px;
+  }
+  &Number {
+    background: url('@/pages/lottery/components/img/1.png') no-repeat 0 / 100% auto;
+    height: 80px;
+    width: 208px;
+    padding-left: 64px;
+    padding-top: 4px;
+  @apply tw-font-knockout;
+  }
+}
+
+.name {
+@apply tw-text-center tw-text-[#EEDFFF] tw-text-20 tw-pt-12 tw-pb-24;
+}
+
+.flex {
+  display: flex;
+  gap: 32px;
+}
+
+.field {
+  flex: 1;
+  height: 108px;
+  border-radius: 100px;
+  border: 4px solid #e3cff8;
+  background-color: #c59df0;
+  font-size: 26px;
+  padding: 0 32px;
+
+  :global {
+    .van-field__body {
+      height: 100%;
+    }
+    .van-field__control {
+      line-height: 1;
+      color: #111;
+      &::placeholder {
+        color: #6e607e;
+      }
+    }
+  }
+}
+.button {
+  appearance: none;
+  cursor: pointer;
+  background: #f42a42;
+  outline: none;
+  width: 368px;
+  height: 108px;
+  border-radius: 100px;
+  border: 0;
+@apply tw-font-knockout tw-text-white tw-text-46 tw-font-bold;
+
+  &Text {
+    @n: 1px;
+    @list: '#000000', '#ff5923', '#48bc1c', '#1aa35b', '#076bb0', '#0408ae';
+    filter: drop-shadow(@n @n #000000) drop-shadow(@n @n #ff5923) drop-shadow(@n @n #48bc1c)
+    drop-shadow(@n @n #1aa35b) drop-shadow(@n @n #076bb0) drop-shadow(@n @n #0408ae);
+  }
+}
+
+.canvas {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.image {
+  position: fixed;
+  visibility: hidden;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.canvas {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  // display: none;
+}
+
+.blur {
+  filter: blur(10px);
+  will-change: filter;
+}

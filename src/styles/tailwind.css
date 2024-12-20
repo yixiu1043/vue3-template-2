@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    .light {
+        --bg-primary: #8552EA;
+        --bg-secondary: #6C64F3;
+        --font-primary: #1F222EB2;
+        --font-primary-dark: #FFFFFFB2;
+        --font-secondary: #1F222E80;
+        --font-title: #16181F;
+        --font-title-dark: #FFFFFF;
+        --font-prompt: #16181F4D;
+        --font-prompt-dark: #FFFFFF4D;
+        --color-warning: #EA006D;
+        --color-danger: #FF4851;
+        --color-stroke1: #16181F1A;
+        --color-stroke1-dark: #FFFFFF1A;
+        --color-stroke2: #16181F08;
+        --color-stroke3: #CFC0F4;
+        --color-accent1: #33CF9E;
+        --color-accent2: #FFBA07;
+        --color-button1: #04CFFC;
+        --color-button2: #FF008C;
+        --color-yellow1: #FF7B5F;
+        --color-gradient1: #F7F4FF;
+        --color-gradient2: #F8F8F8;
+        --color-gradient3: #FDFDFD;
+        --color-gradient4: #EAEAE9;
+        --color-gradient5: #C8C7C8;
+        --color-gradient6: #9E51DC;
+        --color-gradient7: #7F53EF;
+        --color-gradient9: #AD90FF;
+        --color-gradient10: #907AEA;
+        --color-gradient11: #7B61E5FC;
+        --color-gradient12: #8973E0FC;
+        --color-gradient13: #675FE5;
+        --color-gradient14: #736EC3;
+    }
+
+    .dark {
+        --bg-base: #16202f;
+        --bg-primary: #1c283b;
+        --bg-secondary: #121a26;
+        --text-base: rgba(160, 180, 200, .9);
+        --text-active: #50a1ff;
+    }
+}

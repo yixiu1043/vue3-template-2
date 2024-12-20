@@ -1,0 +1,30 @@
+.header {
+  --van-nav-bar-background: none;
+  --van-nav-bar-title-font-size: 48px;
+  --van-nav-bar-title-text-color: white;
+  --van-font-bold: normal;
+  --van-nav-bar-icon-color: white;
+  --van-nav-bar-arrow-size: 40px;
+  :global {
+    .van-nav-bar__title {
+      @apply tw-font-knockout;
+      flex: 1;
+      text-align: left;
+      max-width: 70%;
+    }
+    .van-icon-arrow-left {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      padding: 8px;
+    }
+    .van-nav-bar__right {
+      padding-right: 0;
+    }
+  }
+}
+
+.placeholder {
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+}
