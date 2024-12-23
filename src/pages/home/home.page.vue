@@ -18,20 +18,7 @@ definePage({
 })
 
 onMounted(async () => {
-  const close = loader()
-  const data = await Promise.all([
-    findMiniApp({
-      "name": '',
-      "page": 1,
-      "limit": 10,
-      "channel_id": 3,
-    }),
-    getAppConfig({
-      'channel_id': 3,
-    }),
-  ])
-  console.log('data', data)
-  close()
+
 })
 </script>
 

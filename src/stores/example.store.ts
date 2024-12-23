@@ -9,11 +9,11 @@ export const useExampleStore = defineStore('example', {
   actions: {
     async fetchAppConfig() {
       const { kiwi } = await getAppConfig({
-        channel_id: 3,
+        channelId: 3,
       })
       this.kiwi = kiwi
       console.log('kiwi', kiwi)
-      console.log('kiwi', kiwi.kiwi_download_1)
+      console.log('kiwi', kiwi.kiwiDownload1)
     },
   },
 })

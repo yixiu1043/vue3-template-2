@@ -10,11 +10,11 @@
 
     <!-- img -->
     <div class="tw-flex tw-justify-center">
-    <img
-      class="tw-w-100"
-      src="../../assets/images/logo.png"
-      alt=""
-    />
+      <img
+        class="tw-w-100"
+        src="../../assets/images/logo.png"
+        alt=""
+      />
     </div>
 
     <div class="tw-h-50 tw-text-center tw-leading-[50px]">{{ count }}</div>
@@ -22,14 +22,21 @@
       <van-button
         type="primary"
         @click="add"
-      >Add</van-button
-      >
+        >Add
+      </van-button>
     </div>
 
     <!-- pinia -->
-    <div>{{ example.kiwi}}</div>
+    <div>{{ example.kiwi }}</div>
     <div class="tw-h-10"></div>
-    <div>{{ example.kiwi.kiwi_download_1}}</div>
+    <div>{{ example.kiwi.kiwiDownload1 }}</div>
+    <!-- api  -->
+    <div
+      v-for="item in miniApps"
+      :key="item.id"
+    >
+      {{ item.name }}
+    </div>
 
     <!-- theme -->
     <div class="tw-bg-primary">主题主色1</div>
@@ -69,27 +76,69 @@
     <div class="tw-bg-gradient14">渐变色14</div>
     <div class="var-color">在less中使用</div>
     <van-button @click="app.toggleTheme">切换主题</van-button>
+    <van-button @click="sendMessage">发送消息</van-button>
+    <div>
+      来自socket的消息
+      {{ socket.message.value }}
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import { useExampleStore } from '@/stores/example.store'
 import { useAppStore } from '@/stores/app.store'
+import { findMiniApp } from '@/apis'
+import type { App } from '@/model'
+import Card from '@/example/lottery/components/lottery.card.vue'
 
 definePage({
   path: '/example',
   name: 'example',
 })
 const example = useExampleStore()
-const app = useAppStore();
+const app = useAppStore()
+
+const socket: any = inject('useWebSocket')
+
+const sendMessage = () => {
+  socket.send(
+    JSON.stringify({
+      action: 100003,
+      requestId: Date.now().toString(),
+      data: {
+        target_id: 123424,
+        state: 'state.value',
+        chat_id: 123425,
+      },
+    }),
+  )
+}
+
+watch(
+  () => socket.message.value,
+  (msg) => {
+    console.log('---message--in--page', msg)
+  },
+)
 
 const count = ref<number>(0)
+const miniApps = ref<App[]>([])
 
 const add = () => {
   count.value++
 }
 
-onMounted(() => {
+onMounted(async () => {
   example.fetchAppConfig()
+  const { apps } = await findMiniApp({
+    name: '',
+    page: 1,
+    limit: 10,
+    channelId: 3,
+  })
+  miniApps.value = apps
+  // miniApps.value = apps.slice(0, 3)
+  console.log('apps', apps[0].name)
+  console.log('miniApps', miniApps.value[0].name)
 })
 </script>
 

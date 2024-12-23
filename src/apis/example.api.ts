@@ -1,5 +1,5 @@
 import { Polling, post, get } from './http'
-import type { KiwiResponse, KiwiRequest } from '@/model'
+import type { KiwiResponse, KiwiRequest, MiniAppResponse, MiniAppRequest } from '@/model'
 
 /** 常规用法 */
 // export const liveLuckyDraw = post<response.LiveLuckyDraw>('/integralLottery/liveLuckyDraw', {
@@ -22,6 +22,6 @@ import type { KiwiResponse, KiwiRequest } from '@/model'
 //   retry: Number.MAX_SAFE_INTEGER,
 // })
 
-export const findMiniApp = post<any, any>('/openapi/client/miniapp/find')
+export const findMiniApp = post<MiniAppResponse, MiniAppRequest>('/openapi/client/miniapp/find')
 
 export const getAppConfig = get<KiwiResponse, KiwiRequest>('/app/api/account/get_app_config')

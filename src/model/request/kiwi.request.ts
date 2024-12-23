@@ -1,3 +1,3 @@
 export interface KiwiRequest {
-  channel_id: number
+  channelId: number
 }

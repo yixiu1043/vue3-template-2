@@ -3,8 +3,8 @@ export interface KiwiResponse {
 }
 
 export interface Kiwi {
-  kiwi_download_1: string;
-  kiwi_download_2: string;
-  kiwi_upload: string;
-  kiwi_websocket: string;
+  kiwiDownload1: string;
+  kiwiDownload2: string;
+  kiwiUpload: string;
+  kiwiWebsocket: string;
 }

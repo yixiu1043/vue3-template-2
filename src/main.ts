@@ -7,13 +7,14 @@ import App from './App.vue'
 import router from './router'
 import vueExtends from './vue.extends'
 import { yamiLoader } from 'yami-loader'
-
+import useWebSocket from '@/hooks/use-websocket'
 
 const app = createApp(App)
 
 app.use(store)
 app.use(router)
 app.use(vueExtends)
+app.provide('useWebSocket', useWebSocket())
 app.mount('#app')
 
 if (window.location.search.includes('debug=axiba')) {
