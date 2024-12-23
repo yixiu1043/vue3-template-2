@@ -4,15 +4,13 @@ import { useAppStore } from '@/stores/app.store'
 
 export default function useWebSocket(options = {}) {
   const app = useAppStore()
-  const wsUrl = `ws://im.hey-dev.net/websock/open?token=${app.token}&cipher=true&type=mode2`
 
   const DEFAULT_OPTIONS: IWebSocketBeanParam = {
     // binaryType: "arraybuffer" | "blob",
     binaryType: 'arraybuffer',
-    url: wsUrl,
+    url: app.wsUrl,
     needReconnect: true,
     reconnectGapTime: 2000,
-
     heartSend: 'ping',
     heartGet: 'pong',
     heartGapTime: 10 * 1000,
@@ -34,23 +32,20 @@ export default function useWebSocket(options = {}) {
   }
 
   // 连接状态
-  // const status = ref(WebSocketStatusEnum.close)
-  const status = computed(() => {
-    return state.socket.status
-  })
+  const status = ref(WebSocketStatusEnum.close)
   const message = ref(null)
   const error = ref<null | string>(null)
   const isLogin = ref(true)
 
   // 连接
-  const connect = () => {
-    state.socket = new WebSocketBean(state.options)
+  const connect = (options = {}) => {
+    state.socket = new WebSocketBean({ ...DEFAULT_OPTIONS, ...options })
     state.socket.start()
-    // status.value = state.socket.status
+    status.value = state.socket.status
   }
 
   const onopen = () => {
-    // status.value = state.socket.status
+    status.value = state.socket.status
     error.value = null
   }
 
@@ -61,13 +56,9 @@ export default function useWebSocket(options = {}) {
 
   const onerror = (errorEvent: Event) => {
     console.log('断开')
-    // status.value = state.socket.status
+    status.value = state.socket.status
     error.value = errorEvent.toString()
   }
-
-  // const onclose = () => {
-  //   status.value = state.socket.status
-  // }
 
   const send = (message: string) => {
     state.socket.send(message)
@@ -76,6 +67,7 @@ export default function useWebSocket(options = {}) {
   // 断开
   const disconnect = () => {
     state.socket.close()
+    status.value = state.socket.status
   }
 
   watchEffect(() => {

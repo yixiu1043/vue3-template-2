@@ -88,7 +88,7 @@ import { useExampleStore } from '@/stores/example.store'
 import { useAppStore } from '@/stores/app.store'
 import { findMiniApp } from '@/apis'
 import type { App } from '@/model'
-import Card from '@/example/lottery/components/lottery.card.vue'
+import { generateRequestId } from '@/utils'
 
 definePage({
   path: '/example',
@@ -100,16 +100,13 @@ const app = useAppStore()
 const socket: any = inject('useWebSocket')
 
 const sendMessage = () => {
+  const message = {
+    action: 'enter_game',
+    gameId: app.currentGameId,
+    requestId: generateRequestId(),
+  }
   socket.send(
-    JSON.stringify({
-      action: 100003,
-      requestId: Date.now().toString(),
-      data: {
-        target_id: 123424,
-        state: 'state.value',
-        chat_id: 123425,
-      },
-    }),
+    JSON.stringify(message),
   )
 }
 

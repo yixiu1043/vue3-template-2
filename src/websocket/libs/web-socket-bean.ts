@@ -29,11 +29,11 @@ export default class WebSocketBean implements IWebSocketBean {
     //通知连接成功或重连成功
     this.reconnect.stop()
 
-    //调用生命周期
-    if (this.param.onopen) await this.param.onopen()
-
     //修改状态为已连接
     this.status = WebSocketStatusEnum.open
+
+    //调用生命周期
+    if (this.param.onopen) await this.param.onopen()
   }
 
   onmessage = (ev: MessageEvent<any>) => {
