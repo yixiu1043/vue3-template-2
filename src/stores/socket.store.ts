@@ -1,8 +1,9 @@
+import { useAppStore } from '@/stores/app.store'
 import type { IWebSocketBeanParam } from '@/websocket'
 import { WebSocketBean, WebSocketStatusEnum } from '@/websocket'
-import { useAppStore } from '@/stores/app.store'
+import { handleMessage } from '@/services'
 
-export default function useWebSocket(options = {}) {
+export const useSocketStore = defineStore('socket', () => {
   const app = useAppStore()
 
   const DEFAULT_OPTIONS: IWebSocketBeanParam = {
@@ -26,48 +27,59 @@ export default function useWebSocket(options = {}) {
     },
   }
 
-  const state = {
-    options: { ...DEFAULT_OPTIONS, ...options },
-    socket: {} as WebSocketBean,
-  }
-
-  // 连接状态
+  let socket = {} as WebSocketBean
   const status = ref(WebSocketStatusEnum.close)
   const message = ref(null)
   const error = ref<null | string>(null)
   const isLogin = ref(true)
+  const isConnected = computed<boolean>(() => {
+    return status.value === WebSocketStatusEnum.open
+  })
 
   // 连接
   const connect = (options = {}) => {
-    state.socket = new WebSocketBean({ ...DEFAULT_OPTIONS, ...options })
-    state.socket.start()
-    status.value = state.socket.status
+    if (socket.websocket != null) {
+      console.log('---dispose ---')
+      socket.dispose()
+    }
+    socket = new WebSocketBean({ ...DEFAULT_OPTIONS, ...options })
+    socket.start()
+    status.value = socket.status
   }
 
   const onopen = () => {
-    status.value = state.socket.status
+    status.value = socket.status
     error.value = null
   }
 
   const onmessage = (messageEvent: MessageEvent<any>) => {
     console.log('---onmessage--', messageEvent.data)
     message.value = messageEvent.data
+    try {
+      if (messageEvent.data !== 'PONG') {
+        handleMessage(messageEvent.data)
+      }
+    } catch (e) {
+      console.error(`onmessage: parse data error--:${e}`)
+    }
   }
 
   const onerror = (errorEvent: Event) => {
     console.log('断开')
-    status.value = state.socket.status
-    error.value = errorEvent.toString()
+    status.value = socket.status
+    error.value = errorEvent.type
+    console.log('errorEvent', errorEvent)
   }
 
   const send = (message: string) => {
-    state.socket.send(message)
+    if (!isConnected) return
+    socket.send(message)
   }
 
   // 断开
   const disconnect = () => {
-    state.socket.close()
-    status.value = state.socket.status
+    socket.dispose()
+    status.value = socket.status
   }
 
   watchEffect(() => {
@@ -81,11 +93,13 @@ export default function useWebSocket(options = {}) {
   })
 
   return {
+    socket,
     status,
     message,
     error,
     connect,
     send,
     disconnect,
+    isConnected,
   }
-}
+})

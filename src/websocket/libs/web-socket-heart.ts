@@ -27,7 +27,7 @@ export default class WebSocketHeart implements IWebSocketHeart {
     this.timer = setInterval(() => {
       if (this.failNum >= this.heartFailNum) {
         this.stop()
-        this.websocketbean.onerror()
+        this.websocketbean.onerror(new Event('heart fail num exceeded'))
         return
       }
       this.websocketbean.send(this.heartSend)

@@ -74,12 +74,20 @@
     <div class="tw-bg-gradient12">渐变色12</div>
     <div class="tw-bg-gradient13">渐变色13</div>
     <div class="tw-bg-gradient14">渐变色14</div>
+    <div class="tw-bg-[var(--color-warning)]">
+      颜色变量示例
+    </div>
+    <div class="tw-bg-gradient-to-t tw-from-[var(--color-warning)] tw-to-[var(--color-gradient5)] ">
+      渐变色变量示例
+    </div>
     <div class="var-color">在less中使用</div>
     <van-button @click="app.toggleTheme">切换主题</van-button>
-    <van-button @click="sendMessage">发送消息</van-button>
+    <van-button @click="wsConnect">连接socket</van-button>
+    <van-button @click="wsEnterGame">进入游戏</van-button>
+    <van-button @click="wsGetUserInfo">获取用户信息</van-button>
     <div>
       来自socket的消息
-      {{ socket.message.value }}
+      {{ socket.message }}
     </div>
   </div>
 </template>
@@ -88,7 +96,9 @@ import { useExampleStore } from '@/stores/example.store'
 import { useAppStore } from '@/stores/app.store'
 import { findMiniApp } from '@/apis'
 import type { App } from '@/model'
-import { generateRequestId } from '@/utils'
+import { enterGame, getUserInfo } from '@/services'
+import { useSocketStore } from '@/stores/socket.store'
+import { fetchGroupGames } from '@/apis'
 
 definePage({
   path: '/example',
@@ -97,21 +107,25 @@ definePage({
 const example = useExampleStore()
 const app = useAppStore()
 
-const socket: any = inject('useWebSocket')
+const socket = useSocketStore()
+console.log('socket', socket)
+const wsConnect = () => {
+  const wsUrl = `ws://im.hey-dev.net/websock/gameopen?platform=dongfangcaipiao&session_id=ZRAFgd51MrfqF1TTx3JstaZfWIGUPnXjpgcXzp5hca-mAkjLlTMu8w==`
+  socket.connect({
+    url: wsUrl,
+  })
+}
 
-const sendMessage = () => {
-  const message = {
-    action: 'enter_game',
-    gameId: app.currentGameId,
-    requestId: generateRequestId(),
-  }
-  socket.send(
-    JSON.stringify(message),
-  )
+const wsEnterGame = () => {
+  enterGame()
+}
+
+const wsGetUserInfo = () => {
+  getUserInfo()
 }
 
 watch(
-  () => socket.message.value,
+  () => socket.message,
   (msg) => {
     console.log('---message--in--page', msg)
   },
@@ -136,6 +150,10 @@ onMounted(async () => {
   // miniApps.value = apps.slice(0, 3)
   console.log('apps', apps[0].name)
   console.log('miniApps', miniApps.value[0].name)
+  const { games } = await fetchGroupGames({
+    gid: app.groupId,
+  })
+  console.log('games', games)
 })
 </script>
 
