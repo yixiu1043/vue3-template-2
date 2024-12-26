@@ -4,6 +4,7 @@
     "env.d.ts",
     "src/**/*",
     "src/**/*.vue",
+    "src/**/*.*.ts",
     "typing/**/*.ts",
     "typing/**/*.d.ts",
     "vite-plugin-svg-icons/client"
@@ -17,7 +18,9 @@
     "types": ["node"],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "vueCompilerOptions": {
     "plugins": ["@vue/language-plugin-pug"]
